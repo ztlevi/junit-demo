@@ -1,22 +1,40 @@
 package com.example.junit5;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.*;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class MockitoSpyTest {
 
   // demonstrates of the spy function
   @Test
-  public void testMockitoThrows() {
-    Properties properties = new Properties();
+  public void testDifferenceBetweenMockAndSpy() {
+    // Mocked object does not perform the actual function
+    List<String> mocked = mock(LinkedList.class);
+    mocked.add("dummy");
+    verify(mocked).add("dummy");
+    Assertions.assertEquals(mocked.size(), 0);
 
-    Properties spyProperties = spy(properties);
+    // Spied object will perform the actual function
+    List<String> spied = spy(LinkedList.class);
+    spied.add("dummy");
+    verify(spied).add("dummy");
+    Assertions.assertEquals(spied.size(), 1);
+  }
+
+  @Test
+  public void testMockitoThrows() {
+    // Method 1: spy a created object
+    // Properties properties = new Properties();
+    // Properties spyProperties = spy(properties);
+
+    // Method 2: spy a class
+    Properties spyProperties = spy(Properties.class);
 
     doReturn("42").when(spyProperties).get("shoeSize");
 
@@ -27,17 +45,16 @@ class MockitoSpyTest {
 
   @Test
   public void testLinkedListSpyCorrect() {
-    // Lets mock a LinkedList
-    List<String> list = new LinkedList<>();
-    List<String> spy = spy(list);
+    // Lets spy a LinkedList
+    List<String> spied = spy(LinkedList.class);
 
-    // this would not work as delegate it called so spy.get(0)
+    // this would not work as delegate it called so spied.get(0)
     // throws IndexOutOfBoundsException (list is still empty)
-    // when(spy.get(0)).thenReturn("foo");
+    // when(spied.get(0)).thenReturn("foo");
 
     // you have to use doReturn() for stubbing
-    doReturn("foo").when(spy).get(0);
+    doReturn("foo").when(spied).get(0);
 
-    assertEquals("foo", spy.get(0));
+    assertEquals("foo", spied.get(0));
   }
 }
