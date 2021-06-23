@@ -8,8 +8,26 @@ import java.util.List;
 import java.util.Properties;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+class PropertyManager {
+  Properties properties;
+
+  public PropertyManager(Properties properties) {
+    this.properties = properties;
+  }
+
+  public void printProperties() {
+    // System.out.println(this.properties.setProperty("a", "a"));
+    System.out.println(this.properties.toString());
+  }
+}
+
+@ExtendWith(MockitoExtension.class)
 class MockitoSpyTest {
+  @Mock private Properties mockedProperties;
 
   // demonstrates of the spy function
   @Test
@@ -28,7 +46,7 @@ class MockitoSpyTest {
   }
 
   @Test
-  public void testMockitoThrows() {
+  public void testMockitoSpy() {
     // Method 1: spy a created object
     // Properties properties = new Properties();
     // Properties spyProperties = spy(properties);
@@ -41,6 +59,12 @@ class MockitoSpyTest {
     String value = (String) spyProperties.get("shoeSize");
 
     assertEquals("42", value);
+  }
+
+  @Test
+  public void testMockitoSpyWithNestedMockedObject() {
+    PropertyManager pm = new PropertyManager(mockedProperties);
+    pm.printProperties();
   }
 
   @Test
