@@ -9,7 +9,9 @@ import java.util.Properties;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 class PropertyManager {
@@ -28,6 +30,11 @@ class PropertyManager {
 @ExtendWith(MockitoExtension.class)
 class MockitoSpyTest {
   @Mock private Properties mockedProperties;
+
+  // When you use dependency injection for this object
+  @Spy
+  @InjectMocks
+  private Properties injectedSpiedProperties;
 
   // demonstrates of the spy function
   @Test
@@ -52,6 +59,7 @@ class MockitoSpyTest {
     // Properties spyProperties = spy(properties);
 
     // Method 2: spy a class
+    // Method 3: use @Spy annotation
     Properties spyProperties = spy(Properties.class);
 
     doReturn("42").when(spyProperties).get("shoeSize");
