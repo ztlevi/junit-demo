@@ -10,7 +10,6 @@ public class MyUtilsTest {
 
   @Test
   void shouldMockStaticMethod() {
-    MockedStatic<FinalClass> mockStatic = Mockito.mockStatic(FinalClass.class);
     try (MockedStatic<Utility> mockedStatic = Mockito.mockStatic(Utility.class)) {
 
       mockedStatic
